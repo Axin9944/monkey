@@ -7,6 +7,19 @@ type Token struct {
 	Literal string
 }
 
+var keywords = map[string]TokenType{
+	"fn":  FUNCTION,
+	"let": LET,
+}
+
+// 检查给定的表示符是否是关键字，是返回关键字常量，
+func LookupIdent(ident string) TokenType {
+	if tok, ok := keywords[ident]; ok {
+		return tok
+	}
+	return IDENT
+}
+
 const (
 	ILLEGAL = "ILLEGAL"
 	EOF     = "EOF"
