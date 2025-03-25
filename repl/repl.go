@@ -1,8 +1,8 @@
 package repl
 
 import (
-	"Interpreter_In_Go/lexer"
-	"Interpreter_In_Go/token"
+	"Monkey/lexer"
+	"Monkey/token"
 	"bufio"
 	"fmt"
 	"io"

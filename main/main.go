@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Interpreter_In_Go/repl"
+	"Monkey/repl"
 	"fmt"
 	"os"
 	"os/user"

@@ -1,9 +1,9 @@
 package parser
 
 import (
-	"Interpreter_In_Go/ast"
-	"Interpreter_In_Go/lexer"
-	"Interpreter_In_Go/token"
+	"Monkey/ast"
+	"Monkey/lexer"
+	"Monkey/token"
 	"fmt"
 )
 
@@ -53,6 +53,8 @@ func (p *Parser) parseStatement() ast.Statement {
 	switch p.currentToken.Type {
 	case token.LET:
 		return p.parseLetStatement()
+	case token.RETURN:
+		return p.parseReturnStatement()
 	default:
 		return nil
 	}
@@ -72,6 +74,19 @@ func (p *Parser) parseLetStatement() *ast.LetStatement {
 	}
 
 	// TODO 跳过对表达式的处理，直到遇见分号
+	for !p.curTokenIs(token.SEMICOLON) {
+		p.nextToken()
+	}
+
+	return stmt
+}
+
+func (p *Parser) parseReturnStatement() *ast.ReturnStatement {
+	stmt := &ast.ReturnStatement{Token: p.currentToken}
+
+	p.nextToken()
+
+	// TODO 跳过表达式的处理，直到遇见分号
 	for !p.curTokenIs(token.SEMICOLON) {
 		p.nextToken()
 	}
