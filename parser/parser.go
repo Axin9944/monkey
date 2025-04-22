@@ -17,6 +17,7 @@ const (
 	PRODUCT     // *
 	PREFIX      //  -X or !X
 	CALL        // myFunction(X)
+	INDEX       // array[index]
 )
 
 type Parser struct {
@@ -73,6 +74,10 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.LPAREN, p.parseCallExpression)
 
 	p.registerPrefix(token.STRING, p.parseStringLiteral)
+
+	p.registerPrefix(token.LBRACKET, p.parseArrayLiteral)
+
+	p.registerInfix(token.LBRACKET, p.parseIndexExpression)
 
 	return p
 }
@@ -272,6 +277,7 @@ var precedences = map[token.TokenType]int{
 	token.ASTERISK:  PRODUCT,
 	token.REMAINDER: PRODUCT,
 	token.LPAREN:    CALL,
+	token.LBRACKET:  INDEX,
 }
 
 func (p *Parser) peekPrecedence() int {
@@ -417,7 +423,8 @@ func (p *Parser) parseFunctionParameters() []*ast.Identifier {
 
 func (p *Parser) parseCallExpression(function ast.Expression) ast.Expression {
 	exp := &ast.CallExpression{Token: p.currentToken, Function: function}
-	exp.Arguments = p.parseCallArguments()
+	// exp.Arguments = p.parseCallArguments()
+	exp.Arguments = p.parseExpressionList(token.RPAREN)
 	return exp
 }
 
@@ -447,4 +454,49 @@ func (p *Parser) parseCallArguments() []ast.Expression {
 
 func (p *Parser) parseStringLiteral() ast.Expression {
 	return &ast.StringLiteral{Token: p.currentToken, Value: p.currentToken.Literal}
+}
+
+func (p *Parser) parseArrayLiteral() ast.Expression {
+	array := &ast.ArrayLiteral{Token: p.currentToken}
+
+	array.Elements = p.parseExpressionList(token.RBRACKET)
+
+	return array
+}
+
+func (p *Parser) parseExpressionList(end token.TokenType) []ast.Expression {
+	list := []ast.Expression{}
+
+	if p.peekTokenIs(end) {
+		p.nextToken()
+		return list
+	}
+
+	p.nextToken()
+	list = append(list, p.parseExpression(LOWEST))
+
+	for p.peekTokenIs(token.COMMA) {
+		p.nextToken()
+		p.nextToken()
+		list = append(list, p.parseExpression(LOWEST))
+	}
+
+	if !p.expectPeek(end) {
+		return nil
+	}
+
+	return list
+}
+
+func (p *Parser) parseIndexExpression(left ast.Expression) ast.Expression {
+	expression := &ast.IndexExpression{Token: p.currentToken, Left: left}
+
+	p.nextToken()
+	expression.Index = p.parseExpression(LOWEST)
+
+	if !p.expectPeek(token.RBRACKET) {
+		return nil
+	}
+
+	return expression
 }
