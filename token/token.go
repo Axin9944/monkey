@@ -62,6 +62,7 @@ const (
 	// 分隔符
 	COMMA     = ","
 	SEMICOLON = ";"
+	COLON     = ":"
 
 	LPAREN   = "("
 	RPAREN   = ")"
