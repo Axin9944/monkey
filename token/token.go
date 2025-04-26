@@ -20,6 +20,7 @@ var keywords = map[string]TokenType{
 	"if":     IF,
 	"else":   ELSE,
 	"return": RETURN,
+	"macro":  MACRO,
 }
 
 // 检查给定的表示符是否是关键字，是返回关键字常量，
@@ -80,4 +81,5 @@ const (
 	ELSE     = "ELSE"
 	RETURN   = "RETURN"
 	STRING   = "STRING"
+	MACRO    = "MACRO"
 )

@@ -81,6 +81,8 @@ func New(l *lexer.Lexer) *Parser {
 
 	p.registerPrefix(token.LBRACE, p.parseHashLiteral)
 
+	p.registerPrefix(token.MACRO, p.parseMacroLiteral)
+
 	return p
 }
 
@@ -529,4 +531,22 @@ func (p *Parser) parseHashLiteral() ast.Expression {
 	}
 
 	return hash
+}
+
+func (p *Parser) parseMacroLiteral() ast.Expression {
+	lit := &ast.MacroLiteral{Token: p.currentToken}
+
+	if !p.expectPeek(token.LPAREN) {
+		return nil
+	}
+
+	lit.Parameters = p.parseFunctionParameters()
+
+	if !p.expectPeek(token.LBRACE) {
+		return nil
+	}
+
+	lit.Body = p.parseBlockStatement()
+
+	return lit
 }
