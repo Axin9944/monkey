@@ -1,6 +1,6 @@
 package lexer
 
-import "Monkey/token"
+import "monkey/token"
 
 // Lexer 是一个词法分析器，用于将输入字符串解析为一系列标记（Token）。
 type Lexer struct {

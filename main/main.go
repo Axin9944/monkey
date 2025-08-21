@@ -1,8 +1,8 @@
 package main
 
 import (
-	"Monkey/repl"
 	"fmt"
+	"monkey/repl"
 	"os"
 	"os/user"
 )
