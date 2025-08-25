@@ -1,13 +1,13 @@
 package repl
 
 import (
-	"Monkey/evaluator"
-	"Monkey/lexer"
-	"Monkey/object"
-	"Monkey/parser"
 	"bufio"
 	"fmt"
 	"io"
+	"monkey/evaluator"
+	"monkey/lexer"
+	"monkey/object"
+	"monkey/parser"
 )
 
 const PROMPT = ">> "
