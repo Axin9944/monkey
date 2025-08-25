@@ -1,12 +1,12 @@
 package compiler
 
 import (
-	"Monkey/ast"
-	"Monkey/code"
-	"Monkey/lexer"
-	"Monkey/object"
-	"Monkey/parser"
 	"fmt"
+	"monkey/ast"
+	"monkey/code"
+	"monkey/lexer"
+	"monkey/object"
+	"monkey/parser"
 	"testing"
 )
 

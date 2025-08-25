@@ -1,9 +1,9 @@
 package compiler
 
 import (
-	"Monkey/ast"
-	"Monkey/code"
-	"Monkey/object"
+	"monkey/ast"
+	"monkey/code"
+	"monkey/object"
 )
 
 type Compiler struct {
