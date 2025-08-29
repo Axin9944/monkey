@@ -129,19 +129,15 @@ func (c *Compiler) Compile(node ast.Node) error {
 			c.removeLastPop()
 		}
 
+		// 发出带有虚假偏移量的 OpJump
+		jumpPos := c.emit(code.OpJump, 9999)
+
 		afterConsquencePos := len(c.instructions)
 		c.changeoperand(jumpNotTruthyPos, afterConsquencePos)
 
 		if node.Alternative == nil {
-			afterConsquencePos := len(c.instructions)
-			c.changeoperand(jumpNotTruthyPos, afterConsquencePos)
+			c.emit(code.OpNull)
 		} else {
-			// 发出带有虚假偏移量的 OpJump
-			jumpPos := c.emit(code.OpJump, 9999)
-
-			afterConsquencePos := len(c.instructions)
-			c.changeoperand(jumpNotTruthyPos, afterConsquencePos)
-
 			err := c.Compile(node.Alternative)
 			if err != nil {
 				return err
@@ -150,10 +146,9 @@ func (c *Compiler) Compile(node ast.Node) error {
 			if c.lastInstructionIsPop() {
 				c.removeLastPop()
 			}
-
-			afterAlternativePos := len(c.instructions)
-			c.changeoperand(jumpPos, afterAlternativePos)
 		}
+		afterAlternativePos := len(c.instructions)
+		c.changeoperand(jumpPos, afterAlternativePos)
 	case *ast.BlockStatement:
 		for _, statement := range node.Statements {
 			err := c.Compile(statement)
