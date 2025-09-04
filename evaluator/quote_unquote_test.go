@@ -1,7 +1,7 @@
 package evaluator
 
 import (
-	"Monkey/object"
+	"monkey/object"
 	"testing"
 )
 
