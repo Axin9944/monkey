@@ -1,11 +1,8 @@
 package evaluator
 
-import (
-	"fmt"
-	"monkey/object"
-)
+import "monkey/object"
 
-var builtins = map[string]*object.Builtin{
+/*var builtins = map[string]*object.Builtin{
 	"len": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 {
@@ -106,4 +103,13 @@ var builtins = map[string]*object.Builtin{
 			return NULL
 		},
 	},
+}*/
+
+var builtins = map[string]*object.Builtin{
+	"len":   object.GetBuiltinByName("len"),
+	"puts":  object.GetBuiltinByName("puts"),
+	"first": object.GetBuiltinByName("first"),
+	"last":  object.GetBuiltinByName("last"),
+	"rest":  object.GetBuiltinByName("rest"),
+	"push":  object.GetBuiltinByName("push"),
 }
