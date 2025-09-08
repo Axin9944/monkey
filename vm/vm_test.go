@@ -516,15 +516,15 @@ func TestCallingFunctionsWithWrongArguments(t *testing.T) {
 	tests := []vmTestCase{
 		{
 			input:    `fn() { 1; }(1);`,
-			expected: `wrong number of arguments: want=0, got= 1`,
+			expected: `wrong number of arguments: want=0, got=1`,
 		},
 		{
 			input:    `fn(a) { a; }();`,
-			expected: `wrong number of arguments: want=1, got= 0`,
+			expected: `wrong number of arguments: want=1, got=0`,
 		},
 		{
 			input:    `fn(a, b) { a + b }(1);`,
-			expected: `wrong number of arguments: want=2, got= 1`,
+			expected: `wrong number of arguments: want=2, got=1`,
 		},
 	}
 
@@ -563,7 +563,7 @@ func TestBuiltinFunctions(t *testing.T) {
 		{
 			`len("one", "two")`,
 			&object.Error{
-				Message: "wrong number of arguments. got =2, want=1",
+				Message: "wrong number of arguments. got=2, want=1",
 			},
 		},
 		{`len([1, 2, 3])`, 3},
